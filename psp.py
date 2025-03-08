@@ -1,20 +1,22 @@
 from bs4 import BeautifulSoup
 import requests
 
+global currentPage, lastPage, games
 
+currentPage = 1
+lastPage = 1
 games = []
 
 def GetGames(page = 1):
     site = f'https://www.pushsquare.com/games/browse?system=psp&page={page}'
-    currentPage = 1
 
     page = requests.get(site)
 
     print(page.text)
-    t = page.text
 
     soup = BeautifulSoup(page.content,'html.parser')
-
+    
+    #find games
     results = soup.find_all("li", class_="item item-content item-game")
 
     print('\n', len(results))
@@ -40,7 +42,7 @@ def GetGames(page = 1):
         games.append(game)
 
 
-GetGames(1)
+GetGames(currentPage)
 print(games)
 
 # with open('coiso.txt', 'w', errors='ignore') as coiso:
